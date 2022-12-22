@@ -48,6 +48,32 @@ return [
             'rules' => [
             ],
         ],
+        'assetManager' => [
+            'bundles' => [
+                'yii\bootstrap5\BootstrapAsset' => [
+                    'basePath' => '@webroot',
+                    'baseUrl' => '@web',
+                    'css' => [
+
+                    ],
+                ],
+                'yii\bootstrap5\BootstrapPluginAsset' => [
+                    'basePath' => '@webroot',
+                    'baseUrl' => '@web',
+                    'js' => [
+                        'vendor/bootstrap/dist/js/bootstrap.bundle.min.js',
+                    ],
+                ],
+                'yii\web\JqueryAsset' => [
+                    'basePath' => '@webroot',
+                    'baseUrl' => '@web',
+                    'js' => [
+                        'vendor/jquery/dist/jquery.min.js',
+                        'vendor/jquery-migrate/dist/jquery-migrate.min.js',
+                    ],
+                ],
+            ]
+        ],
     ],
     'modules' => [
         'admin' => [
