@@ -2,10 +2,14 @@
 
 /** @var yii\web\View $this */
 
+use common\components\Breadcrumb;
 use yii\helpers\Url;
 
 $this->title = 'Dashboard';
 ?>
+<div class="page-header">
+    <?= Breadcrumb::levelDua($this->title, 'General', Url::to(['/#'])) ?>
+</div>
 <div class="row justify-content-sm-center text-center py-10">
     <div class="col-sm-7 col-md-5">
         <img class="img-fluid mb-5" src="<?= Url::home() ?>svg/illustrations/oc-collaboration.svg"

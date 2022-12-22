@@ -12,5 +12,12 @@ return [
         'cache' => [
             'class' => \yii\caching\FileCache::class,
         ],
+        'encrypter' => [
+            'class' => '\nickcv\encrypter\components\Encrypter',
+            'globalPassword' => 'beefpork2022',
+            'iv' => 'zxcvbnmasdfghjkl',
+            'useBase64Encoding' => true,
+            'use256BitesEncoding' => false,
+        ],
     ],
 ];

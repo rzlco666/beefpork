@@ -85,6 +85,12 @@ use yii\helpers\Url;
                         </a>
                     </div>
                     <div class="nav-item">
+                        <a class="nav-link <?php if (Yii::$app->controller->id == 'tes') : echo 'active'; endif;?>" href="<?= Url::to(['/tes']) ?>" data-placement="left">
+                            <i class="bi-code nav-icon"></i>
+                            <span class="nav-link-title">CRUD Test</span>
+                        </a>
+                    </div>
+                    <div class="nav-item">
                         <a class="nav-link " href="<?= Url::to(['/#']) ?>" data-placement="left">
                             <i class="bi-c-circle nav-icon"></i>
                             <span class="nav-link-title">Credit</span>

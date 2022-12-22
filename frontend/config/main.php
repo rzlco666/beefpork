@@ -87,6 +87,9 @@ return [
                 'route' => null, // disable menu route
             ]
         ],
+        'gridview' =>  [
+            'class' => '\kartik\grid\Module'
+        ],
     ],
     'params' => $params,
 ];
