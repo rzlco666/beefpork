@@ -207,6 +207,7 @@ AppAsset::register($this);
     <?php echo $this->render('partials/welcome'); ?>
     <!-- End Welcome Message Modal -->
     <!-- ========== END SECONDARY CONTENTS ========== -->
+    <?php echo $this->render('partials/notify'); ?>
     <?php $this->endBody() ?>
     <!-- JS Plugins Init. -->
     <script>

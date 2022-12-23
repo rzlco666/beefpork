@@ -10,7 +10,7 @@ use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 use yii\helpers\Url;
 
-$this->title = 'Sign Up';
+$this->title = 'Success Sign Up';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container-fluid px-3">
@@ -129,57 +129,24 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="col-lg-6 d-flex justify-content-center align-items-center min-vh-lg-100">
             <div class="w-100 content-space-t-4 content-space-t-lg-2 content-space-b-1" style="max-width: 25rem;">
-                <!-- Form -->
-                <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
                 <div class="text-center">
-                    <div class="mb-5">
-                        <h1 class="display-5">Create your account</h1>
-                        <p>Already have an account? <a class="link" href="<?= Url::to(['/site/login']) ?>">Sign in
-                                here</a></p>
+                    <div class="mb-4">
+                        <img class="avatar avatar-xxl avatar-4x3" src="<?= Url::home() ?>svg/illustrations/oc-email-verification.svg" alt="Image Description" data-hs-theme-appearance="default">
+                        <img class="avatar avatar-xxl avatar-4x3" src="<?= Url::home() ?>svg/illustrations-light/oc-email-verification.svg" alt="Image Description" data-hs-theme-appearance="dark">
                     </div>
 
-                    <div class="d-grid mb-4">
-                        <a class="btn btn-white btn-lg" href="#">
-                    <span class="d-flex justify-content-center align-items-center">
-                      <img class="avatar avatar-xss me-2" src="<?= Url::home() ?>svg/brands/google-icon.svg"
-                           alt="Image Description">
-                      Sign in with Google
-                    </span>
-                        </a>
+                    <h1 class="display-5">Verify your email</h1>
+
+                    <p class="mb-1">We've sent a link to your email address</p>
+
+                    <p>Please follow the link inside to continue.</p>
+
+                    <div class="mt-4 mb-3">
+                        <a class="btn btn-primary" href="<?= Url::to(['/site/login']) ?>">Skip now</a>
                     </div>
 
-                    <span class="divider-center text-muted mb-4">OR</span>
+                    <p>Didn't receive an email? <a href="#">Resend</a></p>
                 </div>
-
-                <!-- Form -->
-                <div class="mb-4">
-                    <?= $form->field($model, 'nama')->textInput(['class' => 'form-control form-control-lg', 'autofocus' => true, 'placeholder' => 'Fernandhar Doni'])->label('Full Name') ?>
-                </div>
-                <!-- End Form -->
-
-                <!-- Form -->
-                <div class="mb-4">
-                    <?= $form->field($model, 'username')->textInput(['class' => 'form-control form-control-lg', 'autofocus' => true, 'placeholder' => 'fernandhar']) ?>
-                </div>
-                <!-- End Form -->
-
-                <!-- Form -->
-                <div class="mb-4">
-                    <?= $form->field($model, 'email')->textInput(['class' => 'form-control form-control-lg', 'placeholder' => 'fernandhar@beefpork.com']) ?>
-                </div>
-                <!-- End Form -->
-
-                <!-- Form -->
-                <div class="mb-4">
-                    <?= $form->field($model, 'password')->passwordInput(['class' => 'form-control form-control-lg', 'placeholder' => '********']) ?>
-                </div>
-                <!-- End Form -->
-
-                <div class="d-grid">
-                    <?= Html::submitButton('Sign Up', ['class' => 'btn btn-primary btn-lg', 'name' => 'signup-button']) ?>
-                </div>
-                <?php ActiveForm::end(); ?>
-                <!-- End Form -->
             </div>
         </div>
         <!-- End Col -->

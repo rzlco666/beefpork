@@ -215,6 +215,7 @@ AuthAsset::register($this);
         <!-- End Content -->
     </main>
     <!-- ========== END MAIN CONTENT ========== -->
+    <?php echo $this->render('partials/notify'); ?>
     <?php $this->endBody() ?>
     <!-- JS Plugins Init. -->
     <script>

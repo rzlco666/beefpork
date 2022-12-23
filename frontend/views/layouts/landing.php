@@ -197,6 +197,7 @@ LandingAsset::register($this);
     <!-- ========== SECONDARY CONTENTS ========== -->
     <?php echo $this->render('landing/secondary.php'); ?>
     <!-- ========== END SECONDARY CONTENTS ========== -->
+    <?php echo $this->render('partials/notify'); ?>
     <?php $this->endBody() ?>
     <!-- JS Plugins Init. -->
     <script>

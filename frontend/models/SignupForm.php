@@ -2,6 +2,8 @@
 
 namespace frontend\models;
 
+use common\components\SessionFlash;
+use common\models\Profile;
 use Yii;
 use yii\base\Model;
 use common\models\User;
@@ -12,6 +14,7 @@ use common\models\User;
 class SignupForm extends Model
 {
     public $username;
+    public $nama;
     public $email;
     public $password;
 
@@ -26,6 +29,8 @@ class SignupForm extends Model
             ['username', 'required'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
+
+            ['nama', 'required'],
 
             ['email', 'trim'],
             ['email', 'required'],
@@ -56,7 +61,17 @@ class SignupForm extends Model
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
 
-        return $user->save() && $this->sendEmail($user);
+        if ($user->save()){
+            $getUser = User::find()->where(['username' => $this->username])->one();
+            $profile = new Profile();
+            $profile->id_user = $getUser->id;
+            $profile->nama = $this->nama;
+            $profile->date_join = date('Y-m-d H:i:s');
+            return $profile->save();
+        }else{
+            return SessionFlash::sessionErrorCustom('There was an error in saving the user.');
+        }
+        //return $user->save() && $this->sendEmail($user);
     }
 
     /**

@@ -1,13 +1,16 @@
 <?php
 
+use common\models\Profile;
+use yii\helpers\Html;
 use yii\helpers\Url;
 
+$user = Profile::find()->where(['id_user' => Yii::$app->user->id])->one();
 ?>
 <header id="header"
         class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-container navbar-bordered bg-white">
     <div class="navbar-nav-wrap">
         <!-- Logo -->
-        <a class="navbar-brand" href="./index.html" aria-label="Front">
+        <a class="navbar-brand" href="<?= Url::home() ?>" aria-label="Front">
             <img class="navbar-brand-logo" src="<?= Url::home() ?>svg/logos/logo.svg" alt="Logo"
                  data-hs-theme-appearance="default">
             <img class="navbar-brand-logo" src="<?= Url::home() ?>svg/logos-light/logo.svg" alt="Logo"
@@ -792,8 +795,14 @@ use yii\helpers\Url;
                            data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside"
                            data-bs-dropdown-animation>
                             <div class="avatar avatar-sm avatar-circle">
-                                <img class="avatar-img" src="<?= Url::home() ?>img/160x160/img6.jpg"
-                                     alt="Image Description">
+                                <?php if (!empty($user->foto) || $user->foto != null) : ?>
+                                    <img class="avatar-img" src="<?= Url::home() ?>img/profile/<?= $user->foto ?>"
+                                         alt="Image Description">
+                                <?php else : ?>
+                                    <div class="avatar avatar-sm avatar-dark avatar-circle">
+                                        <span class="avatar-initials"><?= substr($user->nama, 0, 1) ?></span>
+                                    </div>
+                                <?php endif; ?>
                                 <span class="avatar-status avatar-sm-status avatar-status-success"></span>
                             </div>
                         </a>
@@ -803,12 +812,19 @@ use yii\helpers\Url;
                             <div class="dropdown-item-text">
                                 <div class="d-flex align-items-center">
                                     <div class="avatar avatar-sm avatar-circle">
-                                        <img class="avatar-img" src="<?= Url::home() ?>img/160x160/img6.jpg"
-                                             alt="Image Description">
+                                        <?php if (!empty($user->foto) || $user->foto != null) : ?>
+                                            <img class="avatar-img"
+                                                 src="<?= Url::home() ?>img/profile/<?= $user->foto ?>"
+                                                 alt="Image Description">
+                                        <?php else : ?>
+                                            <div class="avatar avatar-sm avatar-dark avatar-circle">
+                                                <span class="avatar-initials"><?= substr($user->nama, 0, 1) ?></span>
+                                            </div>
+                                        <?php endif; ?>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h5 class="mb-0">Mark Williams</h5>
-                                        <p class="card-text text-body">mark@site.com</p>
+                                        <h5 class="mb-0"><?= $user->nama ?></h5>
+                                        <p class="card-text text-body"><?= Yii::$app->user->identity->email ?></p>
                                     </div>
                                 </div>
                             </div>
@@ -843,53 +859,12 @@ use yii\helpers\Url;
                             <a class="dropdown-item" href="#">Settings</a>
 
                             <div class="dropdown-divider"></div>
-
-                            <a class="dropdown-item" href="#">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                        <div class="avatar avatar-sm avatar-dark avatar-circle">
-                                            <span class="avatar-initials">HS</span>
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1 ms-2">
-                                        <h5 class="mb-0">Htmlstream <span
-                                                    class="badge bg-primary rounded-pill text-uppercase ms-1">PRO</span>
-                                        </h5>
-                                        <span class="card-text">hs.example.com</span>
-                                    </div>
-                                </div>
-                            </a>
-
-                            <div class="dropdown-divider"></div>
-
-                            <!-- Dropdown -->
-                            <div class="dropdown">
-                                <a class="navbar-dropdown-submenu-item dropdown-item dropdown-toggle"
-                                   href="javascript:" id="navSubmenuPagesAccountDropdown2" data-bs-toggle="dropdown"
-                                   aria-expanded="false">Customization</a>
-
-                                <div class="dropdown-menu dropdown-menu-end navbar-dropdown-menu navbar-dropdown-menu-borderless navbar-dropdown-sub-menu"
-                                     aria-labelledby="navSubmenuPagesAccountDropdown2">
-                                    <a class="dropdown-item" href="#">
-                                        Invite people
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        Analytics
-                                        <i class="bi-box-arrow-in-up-right"></i>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        Customize Front
-                                        <i class="bi-box-arrow-in-up-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <!-- End Dropdown -->
-
-                            <a class="dropdown-item" href="#">Manage team</a>
-
-                            <div class="dropdown-divider"></div>
-
-                            <a class="dropdown-item" href="#">Sign out</a>
+                            <?= Html::beginForm(['/site/logout'], 'post') ?>
+                            <?= Html::submitButton(
+                                'Sign out',
+                                ['class' => 'dropdown-item']
+                            ) ?>
+                            <?= Html::endForm() ?>
                         </div>
                     </div>
                     <!-- End Account -->
