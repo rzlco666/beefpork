@@ -46,7 +46,7 @@ use yii\helpers\Url;
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a class="nav-link" href="<?= Url::to(['/#']) ?>" data-placement="left">
+                        <a class="nav-link <?php if (Yii::$app->controller->id == 'profile') : echo 'active'; endif;?>" href="<?= Url::to(['/profile']) ?>" data-placement="left">
                             <i class="bi-person nav-icon"></i>
                             <span class="nav-link-title">Profile</span>
                         </a>

@@ -823,7 +823,7 @@ $user = Profile::find()->where(['id_user' => Yii::$app->user->id])->one();
                                         <?php endif; ?>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h5 class="mb-0"><?= $user->nama ?></h5>
+                                        <h5 class="mb-0"><?= ucwords(strtolower($user->nama)) ?></h5>
                                         <p class="card-text text-body"><?= Yii::$app->user->identity->email ?></p>
                                     </div>
                                 </div>
