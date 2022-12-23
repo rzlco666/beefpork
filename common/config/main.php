@@ -1,7 +1,7 @@
 <?php
 return [
     'timeZone' => 'Asia/Jakarta',
-    'language' => 'id',
+    'language' => 'en',
     'name' => 'BeefPork',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
