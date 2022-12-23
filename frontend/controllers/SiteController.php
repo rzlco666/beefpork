@@ -75,7 +75,12 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        if (Yii::$app->user->isGuest) {
+            $this->layout = 'landing';
+            return $this->render('landing');
+        } else {
+            return $this->render('index');
+        }
     }
 
     /**
