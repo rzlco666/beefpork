@@ -40,6 +40,7 @@ class TesController extends Controller
     {
         $searchModel = new TesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->pagination->pageSize=1;
 
         return $this->render('index', [
             'searchModel' => $searchModel,
