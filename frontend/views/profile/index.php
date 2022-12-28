@@ -7,6 +7,7 @@ use kartik\select2\Select2;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Modal;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
@@ -42,18 +43,6 @@ CrudAsset::register($this);
                     <?php else : ?>
                         <span class="avatar-initials"><?= substr($model->nama, 0, 1) ?></span>
                     <?php endif; ?>
-
-                    <input type="file" class="js-file-attach avatar-uploader-input" id="editAvatarUploaderModal"
-                           data-hs-file-attach-options='{
-                          "textTarget": "#editAvatarImgModal",
-                          "mode": "image",
-                          "targetAttr": "src",
-                          "allowTypes": [".png", ".jpeg", ".jpg"]
-                       }'>
-
-                    <span class="avatar-uploader-trigger">
-                        <i class="bi-pencil-fill avatar-uploader-icon shadow-sm"></i>
-                    </span>
                 </label>
                 <!-- End Avatar -->
 
@@ -106,44 +95,8 @@ CrudAsset::register($this);
 
                     <li class="nav-item ms-auto">
                         <div class="d-flex gap-2">
-                            <a class="btn btn-white btn-sm" href="./account-settings.html">
-                                <i class="bi-person-plus-fill me-1"></i> Edit profile
-                            </a>
-
-                            <a class="btn btn-icon btn-sm btn-white" href="#">
-                                <i class="bi-list-ul me-1"></i>
-                            </a>
-
-                            <!-- Dropdown -->
-                            <div class="dropdown nav-scroller-dropdown">
-                                <button type="button" class="btn btn-white btn-icon btn-sm" id="profileDropdown"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi-three-dots-vertical"></i>
-                                </button>
-
-                                <div class="dropdown-menu dropdown-menu-end mt-1" aria-labelledby="profileDropdown">
-                                    <span class="dropdown-header">Settings</span>
-
-                                    <a class="dropdown-item" href="#">
-                                        <i class="bi-share-fill dropdown-item-icon"></i> Share profile
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="bi-slash-circle dropdown-item-icon"></i> Block page and profile
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="bi-info-circle dropdown-item-icon"></i> Suggest edits
-                                    </a>
-
-                                    <div class="dropdown-divider"></div>
-
-                                    <span class="dropdown-header">Feedback</span>
-
-                                    <a class="dropdown-item" href="#">
-                                        <i class="bi-flag dropdown-item-icon"></i> Report
-                                    </a>
-                                </div>
-                            </div>
-                            <!-- End Dropdown -->
+                            <?= Html::a('<i class="bi-person-plus-fill me-1"></i> Update photo', ['update'],
+                                ['role' => 'modal-remote', 'title' => 'Create new Tes', 'class' => 'btn btn-white btn-sm']) ?>
                         </div>
                     </li>
                 </ul>

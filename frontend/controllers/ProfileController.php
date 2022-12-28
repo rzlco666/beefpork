@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\components\SessionFlash;
+use common\models\Foto;
 use Yii;
 use common\models\Profile;
 use common\models\search\ProfileSearch;
@@ -11,6 +12,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\bootstrap5\Html;
+use yii\web\UploadedFile;
 
 /**
  * ProfileController implements the CRUD actions for Profile model.
@@ -94,7 +96,7 @@ class ProfileController extends Controller
     {
         $getId = Profile::find()->where(['id_user' => Yii::$app->user->id])->one();
         $request = Yii::$app->request;
-        $model = $this->findModel($getId->id);
+        $model = Foto::findOne($getId->id);
 
         if($request->isAjax){
             /*
@@ -103,26 +105,34 @@ class ProfileController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> 'Update Profile #'.$id,
+                    'title'=> 'Update Photo - '.$getId->nama,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-secondary float-left','data-bs-dismiss'=>'modal']).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>'submit'])
                 ];
-            }else if($model->load($request->post()) && $model->save()){
-                return [
-                    'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> 'Profile #'.$id,
-                    'content'=>$this->renderAjax('view', [
-                        'model' => $model,
-                    ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-secondary float-left','data-bs-dismiss'=>'modal']).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];
+            }else if($model->load($request->post())){
+                $model->foto = UploadedFile::getInstance($model, 'foto');
+                $nama = $getId->id;
+                if ($model->validate()) {
+                    $saveTo = 'img/profile/' . $nama . '.' . $model->foto->extension;
+                    if ($model->foto->saveAs($saveTo)) {
+                        $model->foto = $nama . '.' . $model->foto->extension;
+                        $model->save(false);
+                        SessionFlash::sessionSuccessCustom('Foto berhasil diubah');
+                        return $this->redirect(['index']);
+                    } else {
+                        SessionFlash::sessionErrorCustom('Foto gagal diupload');
+                        return $this->redirect(['index']);
+                    }
+                } else {
+                    SessionFlash::sessionErrorCustom('Foto gagal diupload');
+                    return $this->redirect(['index']);
+                }
             }else{
                  return [
-                    'title'=> 'Update Profile #'.$id,
+                    'title'=> 'Update Foto - '.$getId->nama,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -135,7 +145,7 @@ class ProfileController extends Controller
             *   Process for non-ajax request
             */
             if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['index']);
             } else {
                 return $this->render('update', [
                     'model' => $model,
