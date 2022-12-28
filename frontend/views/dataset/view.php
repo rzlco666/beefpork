@@ -47,7 +47,7 @@ $profile = Profile::find()->where(['id_user' => $model->id_user])->one();
         <h4 class="card-header-title">'.$model->file.'</h4>
       </div>
     <div class="table-responsive datatable-custom">
-  ';
+    ';
     echo '<table class="js-datatable table table-nowrap table-align-middle card-table">';
 
     # open the file
