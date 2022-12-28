@@ -43,7 +43,7 @@ class Profile extends \yii\db\ActiveRecord
             [['date_join'], 'safe'],
             [['nama'], 'string', 'max' => 200],
             [['organisasi', 'alamat', 'kota', 'provinsi', 'negara', 'foto'], 'string', 'max' => 255],
-            [['no_hp'], 'string', 'max' => 20],
+            [['no_hp'], 'match', 'pattern' => '/^\d{10,19}$/'],
             [['jk'], 'string', 'max' => 1],
             [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['id_user' => 'id']],
         ];
