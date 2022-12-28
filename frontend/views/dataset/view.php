@@ -1,10 +1,9 @@
 <?php
 
+use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 use common\models\Profile;
 use FrosyaLabs\Lang\IdDateFormatter;
 use kartik\detail\DetailView;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Dataset */
@@ -37,15 +36,38 @@ $profile = Profile::find()->where(['id_user' => $model->id_user])->one();
         ],
     ]) ?>
 
+    <br>
+
     <?php
-    $spreadsheet = IOFactory::load('datasetfile/9 - A - BeefPork_Test.xlsx');
-    $writer = new Xlsx($spreadsheet);
+    $path = 'datasetfile/'.$model->file;
 
-    header('Content-Type: application/vnd.ms-excel');
-    header('Content-Disposition: attachment;filename="file.xlsx"');
-    header('Cache-Control: max-age=0');
+    echo '
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-header-title">'.$model->file.'</h4>
+      </div>
+    <div class="table-responsive datatable-custom">
+  ';
+    echo '<table class="js-datatable table table-nowrap table-align-middle card-table">';
 
-    $writer->save('php://output');
+    # open the file
+    $reader = ReaderEntityFactory::createXLSXReader();
+    $reader->open($path);
+    # read each cell of each row of each sheet
+    foreach ($reader->getSheetIterator() as $sheet) {
+        foreach ($sheet->getRowIterator() as $row) {
+            echo '<tr>';
+            foreach ($row->getCells() as $cell) {
+                echo '<td>' . $cell->getValue() . '</td>';
+            }
+            echo '</tr>';
+        }
+    }
+    echo '</table>';
+    echo '</div>';
+    echo '</div>';
+
+    $reader->close();
     ?>
 
 </div>

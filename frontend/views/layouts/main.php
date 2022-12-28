@@ -176,6 +176,7 @@ AppAsset::register($this);
     <body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl footer-offset">
     <script src="<?= Url::home() ?>js/hs.theme-appearance.js"></script>
     <script src="<?= Url::home() ?>vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside-mini-cache.js"></script>
+    <script src="<?= Url::home() ?>vendor/datatables/media/js/jquery.dataTables.min.js"></script>
     <?php $this->beginBody() ?>
     <!-- ========== HEADER ========== -->
     <?php echo $this->render('partials/header'); ?>
@@ -268,6 +269,13 @@ AppAsset::register($this);
         })()
     </script>
     <!-- End Style Switcher JS -->
+    <script>
+        (function () {
+            // INITIALIZATION OF DATATABLES
+            // =======================================================
+            HSCore.components.HSDatatables.init('.js-datatable')
+        })()
+    </script>
     </body>
     </html>
 <?php $this->endPage();

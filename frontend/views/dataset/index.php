@@ -69,6 +69,7 @@ CrudAsset::register($this);
 <?php Modal::begin([
     "id" => "ajaxCrudModal",
     "title" => '<h4 class="modal-title">Modal title</h4>',
+    'size' => Modal::SIZE_EXTRA_LARGE,
     "options" => [
         "tabindex" => -1, // important for Select2 to work properly,
         "class" => "modal fade",
