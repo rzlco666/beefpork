@@ -57,7 +57,7 @@ use yii\helpers\Url;
                     <small class="bi-three-dots nav-subtitle-replacer"></small>
 
                     <div class="nav-item">
-                        <a class="nav-link " href="<?= Url::to(['/#']) ?>" data-placement="left">
+                        <a class="nav-link <?php if (Yii::$app->controller->id == 'dataset') : echo 'active'; endif;?>" href="<?= Url::to(['/dataset']) ?>" data-placement="left">
                             <i class="bi-file-earmark-spreadsheet nav-icon"></i>
                             <span class="nav-link-title">Dataset</span>
                         </a>

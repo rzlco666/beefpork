@@ -9,10 +9,10 @@ use yii\bootstrap5\Modal;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\search\TesSearch */
+/* @var $searchModel common\models\search\DatasetSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Tes';
+$this->title = 'Dataset';
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
@@ -22,8 +22,8 @@ CrudAsset::register($this);
         <div class="row align-items-end">
             <?= Breadcrumb::levelDua($this->title, 'Dashboard', Url::home()) ?>
             <div class="col-sm-auto">
-                <?= Html::a('<i class="bi-plus me-1"></i> Create Tes', ['create'],
-                    ['role' => 'modal-remote', 'title' => 'Create new Tes', 'class' => 'btn btn-primary']) ?>
+                <?= Html::a('<i class="bi-cloud-upload me-1"></i> Upload Dataset', ['create'],
+                    ['role' => 'modal-remote', 'title' => 'Upload Dataset', 'class' => 'btn btn-primary']) ?>
             </div>
         </div>
     </div>
@@ -48,7 +48,7 @@ CrudAsset::register($this);
                 'responsive' => true,
                 'panel' => [
                     'type' => 'light',
-                    'heading' => '<h4 class="card-header-title">'.$this->title.'</h4>',
+                    'heading' => '<h4 class="card-header-title">' . $this->title . '</h4>',
                     'before' => '<em>' . '* Resize table columns just like a spreadsheet by dragging the column edges.' . '</em>',
                     'after' => BulkButtonWidget::widget([
                         'buttonText' => '<span class="fas fa-arrow-right"></span>&nbsp;&nbsp;' . 'With selected' . '&nbsp;&nbsp;',

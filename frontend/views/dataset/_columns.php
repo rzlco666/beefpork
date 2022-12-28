@@ -1,5 +1,6 @@
 <?php
 
+use FrosyaLabs\Lang\IdDateFormatter;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -12,25 +13,47 @@ return [
         'class' => 'kartik\grid\SerialColumn',
         'width' => '30px',
     ],
-        // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'id',
+    // [
+    // 'class'=>'\kartik\grid\DataColumn',
+    // 'attribute'=>'id',
     // ],
     [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'name',
+        'class' => '\kartik\grid\DataColumn',
+        'attribute' => 'nama',
     ],
     [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'description',
+        'class' => '\kartik\grid\DataColumn',
+        'attribute' => 'file',
     ],
+    [
+        'class' => '\kartik\grid\DataColumn',
+        'attribute' => 'ekstensi',
+    ],
+    [
+        'class' => '\kartik\grid\DataColumn',
+        'attribute' => 'size',
+        'value' => function ($model) {
+            return ByteUnits\bytes($model->size)->format();
+        },
+    ],
+    [
+        'class' => '\kartik\grid\DataColumn',
+        'attribute' => 'upload_date',
+        'value' => function ($model) {
+            return IdDateFormatter::format($model->upload_date, IdDateFormatter::LONG);
+        }
+    ],
+    // [
+    // 'class'=>'\kartik\grid\DataColumn',
+    // 'attribute'=>'id_user',
+    // ],
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
-        'vAlign'=>'middle',
+        'vAlign' => 'middle',
         'template' => '{view} {update} {delete}',
-        'urlCreator' => function($action, $model, $key, $index) {
-                return Url::to([$action,'id'=>$key]);
+        'urlCreator' => function ($action, $model, $key, $index) {
+            return Url::to([$action, 'id' => Yii::$app->encrypter->encrypt($key)]);
         },
         'buttons' => [
             'view' => function ($url, $model) {
