@@ -55,7 +55,7 @@ CrudAsset::register($this);
                 <ul class="list-inline list-px-2">
                     <li class="list-inline-item">
                         <i class="bi-building me-1"></i>
-                        <span><?= ucwords(strtolower($model->organisasi)) ?></span>
+                        <span><?= $model->organisasi == null ? '-' : ucwords(strtolower($model->organisasi)) ?></span>
                     </li>
 
                     <li class="list-inline-item">
@@ -127,7 +127,7 @@ CrudAsset::register($this);
                                     <i class="bi-person dropdown-item-icon"></i> <?= ucwords(strtolower($model->nama)) ?>
                                 </li>
                                 <li>
-                                    <i class="bi-building dropdown-item-icon"></i> <?= ucwords(strtolower($model->organisasi)) ?>
+                                    <i class="bi-building dropdown-item-icon"></i> <?= $model->organisasi == null ? '-' : ucwords(strtolower($model->organisasi)) ?>
                                 </li>
                                 <li>
                                     <i class="bi-geo-alt dropdown-item-icon"></i> <?= ucwords(strtolower($model->kota)) ?><?php if ($model->kota != null || !empty($model->kota)) : echo ', '; endif; ?><?= ucwords(strtolower($model->provinsi)) ?><?php if ($model->provinsi != null || !empty($model->provinsi)) : echo ', '; endif; ?><?= ucwords(strtolower($model->negara)) ?>
