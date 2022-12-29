@@ -130,7 +130,7 @@ CrudAsset::register($this);
                                     <i class="bi-building dropdown-item-icon"></i> <?= $model->organisasi == null ? '-' : ucwords(strtolower($model->organisasi)) ?>
                                 </li>
                                 <li>
-                                    <i class="bi-geo-alt dropdown-item-icon"></i> <?= ucwords(strtolower($model->kota)) ?><?php if ($model->kota != null || !empty($model->kota)) : echo ', '; endif; ?><?= ucwords(strtolower($model->provinsi)) ?><?php if ($model->provinsi != null || !empty($model->provinsi)) : echo ', '; endif; ?><?= ucwords(strtolower($model->negara)) ?>
+                                    <i class="bi-geo-alt dropdown-item-icon"></i> <?= $model->kota == null ? '-' : ucwords(strtolower($model->kota)) ?><?php if ($model->kota != null || !empty($model->kota)) : echo ', '; endif; ?><?= $model->provinsi == null ? '-' : ucwords(strtolower($model->provinsi)) ?><?php if ($model->provinsi != null || !empty($model->provinsi)) : echo ', '; endif; ?><?= $model->negara == null ? '-' : ucwords(strtolower($model->negara)) ?>
                                 </li>
 
                                 <li class="pt-4 pb-0"><span class="card-subtitle">Contacts</span></li>
