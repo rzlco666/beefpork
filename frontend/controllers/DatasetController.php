@@ -282,6 +282,8 @@ class DatasetController extends Controller
         $pks = explode(',', $request->post('pks')); // Array or selected records primary keys
         foreach ($pks as $pk) {
             $model = $this->findModel($pk);
+            $old_file = $model->file;
+            @unlink(Yii::getAlias('@frontend') . '/web/datasetfile/' . $old_file);
             $model->delete();
         }
 
