@@ -3,14 +3,14 @@
 namespace frontend\controllers;
 
 use common\components\SessionFlash;
-use Yii;
 use common\models\Dataset;
 use common\models\search\DatasetSearch;
+use Yii;
+use yii\bootstrap5\Html;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use \yii\web\Response;
-use yii\bootstrap5\Html;
+use yii\web\Response;
 use yii\web\UploadedFile;
 
 /**
@@ -60,20 +60,36 @@ class DatasetController extends Controller
         $id = Yii::$app->encrypter->decrypt($id);
         $model = $this->findModel($id);
         $request = Yii::$app->request;
-        if($request->isAjax){
+        if ($request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> 'Dataset - '.$model->file,
-                    'content'=>$this->renderAjax('view', [
-                        'model' => $model,
-                    ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-secondary float-left','data-bs-dismiss'=>'modal']).
-                            Html::a('Edit',['update','id'=>Yii::$app->encrypter->encrypt($id)],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];
-        }else{
+                'title' => 'Dataset - ' . $model->file,
+                'content' => $this->renderAjax('view', [
+                    'model' => $model,
+                ]),
+                'footer' => Html::button('Close', ['class' => 'btn btn-secondary float-left', 'data-bs-dismiss' => 'modal']) .
+                    Html::a('Edit', ['update', 'id' => Yii::$app->encrypter->encrypt($id)], ['class' => 'btn btn-primary', 'role' => 'modal-remote'])
+            ];
+        } else {
             return $this->render('view', [
                 'model' => $this->findModel($id),
             ]);
+        }
+    }
+
+    /**
+     * Finds the Dataset model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return Dataset the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = Dataset::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
 
@@ -90,24 +106,24 @@ class DatasetController extends Controller
         $model->upload_date = date('Y-m-d H:i:s');
         $model->id_user = Yii::$app->user->identity->id;
 
-        if($request->isAjax){
+        if ($request->isAjax) {
             /*
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            if($request->isGet){
+            if ($request->isGet) {
                 return [
-                    'title'=>'Upload new Dataset',
-                    'content'=>$this->renderAjax('create', [
+                    'title' => 'Upload new Dataset',
+                    'content' => $this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-secondary float-left','data-bs-dismiss'=>'modal']).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>'submit'])
+                    'footer' => Html::button('Close', ['class' => 'btn btn-secondary float-left', 'data-bs-dismiss' => 'modal']) .
+                        Html::button('Save', ['class' => 'btn btn-primary', 'type' => 'submit'])
 
                 ];
-            }else if($model->load($request->post())){
+            } else if ($model->load($request->post())) {
                 $model->file = UploadedFile::getInstance($model, 'file');
-                $nama = Yii::$app->user->identity->id .' - '. $model->nama .' - '. $model->file->baseName;
+                $nama = Yii::$app->user->identity->id . ' - ' . $model->nama . ' - ' . $model->file->baseName;
                 $model->ekstensi = $model->file->extension;
                 $model->size = $model->file->size;
                 if ($model->validate()) {
@@ -125,18 +141,18 @@ class DatasetController extends Controller
                     SessionFlash::sessionErrorCustom('Dataset failed to upload');
                     return $this->redirect(['index']);
                 }
-            }else{
+            } else {
                 return [
-                    'title'=> 'Upload new Dataset',
-                    'content'=>$this->renderAjax('create', [
+                    'title' => 'Upload new Dataset',
+                    'content' => $this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-secondary float-left','data-bs-dismiss'=>'modal']).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>'submit'])
+                    'footer' => Html::button('Close', ['class' => 'btn btn-secondary float-left', 'data-bs-dismiss' => 'modal']) .
+                        Html::button('Save', ['class' => 'btn btn-primary', 'type' => 'submit'])
 
                 ];
             }
-        }else{
+        } else {
             /*
             *   Process for non-ajax request
             */
@@ -167,25 +183,25 @@ class DatasetController extends Controller
         $model->id_user = Yii::$app->user->identity->id;
         $old_file = $model->file;
 
-        if($request->isAjax){
+        if ($request->isAjax) {
             /*
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            if($request->isGet){
+            if ($request->isGet) {
                 return [
-                    'title'=> 'Update Dataset - '.$model->file,
-                    'content'=>$this->renderAjax('update', [
+                    'title' => 'Update Dataset - ' . $model->file,
+                    'content' => $this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-secondary float-left','data-bs-dismiss'=>'modal']).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>'submit'])
+                    'footer' => Html::button('Close', ['class' => 'btn btn-secondary float-left', 'data-bs-dismiss' => 'modal']) .
+                        Html::button('Save', ['class' => 'btn btn-primary', 'type' => 'submit'])
                 ];
-            }else if($model->load($request->post())){
+            } else if ($model->load($request->post())) {
                 $model->file = UploadedFile::getInstance($model, 'file');
                 if ($model->file) {
                     if ($model->validate()) {
-                        $nama = Yii::$app->user->identity->id .' - '. $model->nama .' - '. $model->file->baseName;
+                        $nama = Yii::$app->user->identity->id . ' - ' . $model->nama . ' - ' . $model->file->baseName;
                         $model->ekstensi = $model->file->extension;
                         $model->size = $model->file->size;
                         @unlink(Yii::getAlias('@frontend') . '/web/datasetfile/' . $old_file);
@@ -208,17 +224,17 @@ class DatasetController extends Controller
                     return $this->redirect(['index']);
                 }
 
-            }else{
-                 return [
-                    'title'=> 'Update Dataset - '.$model->file,
-                    'content'=>$this->renderAjax('update', [
+            } else {
+                return [
+                    'title' => 'Update Dataset - ' . $model->file,
+                    'content' => $this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-secondary float-left','data-bs-dismiss'=>'modal']).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>'submit'])
+                    'footer' => Html::button('Close', ['class' => 'btn btn-secondary float-left', 'data-bs-dismiss' => 'modal']) .
+                        Html::button('Save', ['class' => 'btn btn-primary', 'type' => 'submit'])
                 ];
             }
-        }else{
+        } else {
             /*
             *   Process for non-ajax request
             */
@@ -243,25 +259,17 @@ class DatasetController extends Controller
     {
         $id = Yii::$app->encrypter->decrypt($id);
         $request = Yii::$app->request;
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $old_file = $model->file;
+        @unlink(Yii::getAlias('@frontend') . '/web/datasetfile/' . $old_file);
+        $model->delete();
 
-        if($request->isAjax){
-            /*
-            *   Process for ajax request
-            */
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
-        }else{
-            /*
-            *   Process for non-ajax request
-            */
-            return $this->redirect(['index']);
-        }
-
+        SessionFlash::sessionSuccessDelete();
+        return $this->redirect(['index']);
 
     }
 
-     /**
+    /**
      * Delete multiple existing Dataset model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
@@ -271,40 +279,24 @@ class DatasetController extends Controller
     public function actionBulkdelete()
     {
         $request = Yii::$app->request;
-        $pks = explode(',', $request->post( 'pks' )); // Array or selected records primary keys
-        foreach ( $pks as $pk ) {
+        $pks = explode(',', $request->post('pks')); // Array or selected records primary keys
+        foreach ($pks as $pk) {
             $model = $this->findModel($pk);
             $model->delete();
         }
 
-        if($request->isAjax){
+        if ($request->isAjax) {
             /*
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
-        }else{
+            return ['forceClose' => true, 'forceReload' => '#crud-datatable-pjax'];
+        } else {
             /*
             *   Process for non-ajax request
             */
             return $this->redirect(['index']);
         }
 
-    }
-
-    /**
-     * Finds the Dataset model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Dataset the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Dataset::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
     }
 }
