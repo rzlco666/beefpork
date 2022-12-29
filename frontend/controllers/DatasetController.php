@@ -163,6 +163,9 @@ class DatasetController extends Controller
         $id = Yii::$app->encrypter->decrypt($id);
         $request = Yii::$app->request;
         $model = $this->findModel($id);
+        $model->upload_date = date('Y-m-d H:i:s');
+        $model->id_user = Yii::$app->user->identity->id;
+        $old_file = $model->file;
 
         if($request->isAjax){
             /*
@@ -178,16 +181,33 @@ class DatasetController extends Controller
                     'footer'=> Html::button('Close',['class'=>'btn btn-secondary float-left','data-bs-dismiss'=>'modal']).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>'submit'])
                 ];
-            }else if($model->load($request->post()) && $model->save()){
-                return [
-                    'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> 'Dataset - '.$model->file,
-                    'content'=>$this->renderAjax('view', [
-                        'model' => $model,
-                    ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-secondary float-left','data-bs-dismiss'=>'modal']).
-                            Html::a('Edit',['update','id'=>Yii::$app->encrypter->encrypt($id)],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];
+            }else if($model->load($request->post())){
+                $model->file = UploadedFile::getInstance($model, 'file');
+                if ($model->file) {
+                    if ($model->validate()) {
+                        $nama = Yii::$app->user->identity->id .' - '. $model->nama .' - '. $model->file->baseName;
+                        $model->ekstensi = $model->file->extension;
+                        $model->size = $model->file->size;
+                        @unlink(Yii::getAlias('@frontend') . '/web/datasetfile/' . $old_file);
+                        $saveTo = 'datasetfile/' . $nama . '.' . $model->file->extension;
+                        if ($model->file->saveAs($saveTo)) {
+                            $model->file = $nama . '.' . $model->file->extension;
+                            $model->save(false);
+                            SessionFlash::sessionSuccessCustom('Dataset uploaded successfully');
+                            return $this->redirect(['index']);
+                        } else {
+                            SessionFlash::sessionErrorCustom('Dataset failed to upload');
+                            return $this->redirect(['index']);
+                        }
+                    } else {
+                        SessionFlash::sessionErrorCustom('Dataset failed to upload');
+                        return $this->redirect(['index']);
+                    }
+                } else {
+                    SessionFlash::sessionErrorCustom('Empty file');
+                    return $this->redirect(['index']);
+                }
+
             }else{
                  return [
                     'title'=> 'Update Dataset - '.$model->file,
