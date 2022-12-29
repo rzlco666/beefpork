@@ -60,9 +60,9 @@ CrudAsset::register($this);
 
                     <li class="list-inline-item">
                         <i class="bi-geo-alt me-1"></i>
-                        <a href="#"><?= ucwords(strtolower($model->kota)) ?><?php if ($model->kota != null || !empty($model->kota)) : echo ', '; endif; ?></a>
-                        <a href="#"><?= ucwords(strtolower($model->provinsi)) ?><?php if ($model->provinsi != null || !empty($model->provinsi)) : echo ', '; endif; ?></a>
-                        <a href="#"><?= ucwords(strtolower($model->negara)) ?></a>
+                        <a href="#"><?= $model->kota == null ? '-' : ucwords(strtolower($model->kota)) ?><?php if ($model->kota != null || !empty($model->kota)) : echo ', '; endif; ?></a>
+                        <a href="#"><?= $model->provinsi == null ? '-' : ucwords(strtolower($model->provinsi)) ?><?php if ($model->provinsi != null || !empty($model->provinsi)) : echo ', '; endif; ?></a>
+                        <a href="#"><?= $model->negara == null ? '-' : ucwords(strtolower($model->negara)) ?></a>
                     </li>
 
                     <li class="list-inline-item">
